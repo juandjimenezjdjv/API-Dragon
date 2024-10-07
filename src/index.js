@@ -9,7 +9,7 @@ getConnection()
 // // executeTables()
 showTables()
 alterTables()
-app.listen(5005)
+app.listen(1314)
 
 console.log("Conexion ...")
 
