@@ -105,7 +105,7 @@ export const get3RandomService = async (req, res) => {
     try {
 
         // Obtener 3 servicios aleatorios
-        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 ORDER BY RANDOM() LIMIT 3');
+        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 OR estado IS NULL ORDER BY RANDOM() LIMIT 3');
 
         // Verificar si hay resultados
         if (result.rows.length === 0) {
@@ -126,7 +126,7 @@ export const get3RandomService = async (req, res) => {
 export const getServices = async (req, res) => {
     try {
         // Ejecutar la consulta para obtener todos los servicios
-        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1');
+        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 OR estado IS NULL');
 
         // Enviar los servicios como respuesta
         res.json(result.rows);
@@ -142,7 +142,7 @@ export const getServicesByType = async (req, res) => {
         const { tipo } = req.params;
 
         // Ejecutar la consulta SQL con un parámetro
-        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1 AND estado != 1', [tipo]);
+        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1 AND estado != 1 OR estado IS NULL', [tipo]);
 
         // Enviar los servicios filtrados como respuesta
         res.json(result.rows);
@@ -283,7 +283,7 @@ export const getServicioById = async (req, res) => {
         const { codigoServicio } = req.params;
 
         // Ejecutar la consulta SQL para obtener el servicio por código
-        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1', [codigoServicio, 'activo']);
+        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1 OR estado IS NULL', [codigoServicio, 'activo']);
 
 
         const servicio = result.rows[0];
