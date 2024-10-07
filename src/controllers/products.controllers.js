@@ -105,7 +105,7 @@ export const get3RandomService = async (req, res) => {
     try {
 
         // Obtener 3 servicios aleatorios
-        const result = await pool.query('SELECT * FROM servicio ORDER BY RANDOM() LIMIT 3');
+        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 ORDER BY RANDOM() LIMIT 3');
 
         // Verificar si hay resultados
         if (result.rows.length === 0) {
@@ -126,7 +126,7 @@ export const get3RandomService = async (req, res) => {
 export const getServices = async (req, res) => {
     try {
         // Ejecutar la consulta para obtener todos los servicios
-        const result = await pool.query('SELECT * FROM servicio');
+        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1');
 
         // Enviar los servicios como respuesta
         res.json(result.rows);
@@ -142,7 +142,7 @@ export const getServicesByType = async (req, res) => {
         const { tipo } = req.params;
 
         // Ejecutar la consulta SQL con un parámetro
-        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1', [tipo]);
+        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1 AND estado != 1', [tipo]);
 
         // Enviar los servicios filtrados como respuesta
         res.json(result.rows);
@@ -283,7 +283,8 @@ export const getServicioById = async (req, res) => {
         const { codigoServicio } = req.params;
 
         // Ejecutar la consulta SQL para obtener el servicio por código
-        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1', [codigoServicio]);
+        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1', [codigoServicio, 'activo']);
+
 
         const servicio = result.rows[0];
 
@@ -369,21 +370,22 @@ export const deleteServicio = async (req, res) => {
     try {
         const { codigoServicio } = req.params;
 
-        // Ejecutar la consulta SQL para eliminar el servicio
-        const result = await pool.query('DELETE FROM servicio WHERE codigoServicio = $1', [codigoServicio]);
+        // Ejecutar la consulta SQL para actualizar el estado del servicio
+        const result = await pool.query('UPDATE servicio SET estado = 1 WHERE codigoServicio = $1', [codigoServicio]); 
 
-        // Verificar si se eliminó algún registro
+        // Verificar si se actualizó algún registro
         if (result.rowCount === 0) {
             return res.status(404).json({ message: 'Servicio no encontrado' });
         }
 
         // Responder con un mensaje de éxito
-        res.json({ message: 'Servicio eliminado exitosamente' });
+        res.json({ message: 'Estado del servicio actualizado exitosamente' });
     } catch (err) {
-        console.error('Error al eliminar el servicio:', err.message);
-        res.status(500).json({ message: 'Error al eliminar el servicio' });
+        console.error('Error al actualizar el estado del servicio:', err.message);
+        res.status(500).json({ message: 'Error al actualizar el estado del servicio' });
     }
 };
+
 
 export const registrarPago = async (req, res) => {
     try {
