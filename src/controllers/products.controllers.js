@@ -126,7 +126,7 @@ export const get3RandomService = async (req, res) => {
 export const getServices = async (req, res) => {
     try {
         // Ejecutar la consulta para obtener todos los servicios
-        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 OR estado IS NULL');
+        const result = await pool.query('SELECT * FROM servicio WHERE tipo != 5 AND (estado != 1 OR estado IS NULL)');
 
         // Enviar los servicios como respuesta
         res.json(result.rows);
