@@ -1,0 +1,76 @@
+function AdminPanel() {
+    const role = getRoleFromToken();
+
+    if (role !== 'admin') {
+        return <h2>Acceso denegado: Solo los administradores pueden ver esta página.</h2>;
+    }
+
+    return (
+        <div>
+            <h1>Panel de Administración</h1>
+            {/* Contenido específico para administradores */}
+        </div>
+    );
+}
+
+function App() {
+    return (
+        <div>
+            {/* Otras partes de la página */}
+            <AdminPanel /> {/* Solo se muestra si el rol es admin */}
+        </div>
+    );
+}
+
+
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+
+function PrivateRoute({ component: Component, ...rest }) {
+    const role = getRoleFromToken();
+
+    return (
+        <Route
+            {...rest}
+            render={(props) =>
+                role === 'admin' ? (
+                    <Component {...props} />
+                ) : (
+                    <Redirect to="/acceso-denegado" />
+                )
+            }
+        />
+    );
+}
+
+// Uso de la ruta privada para proteger la página de administración
+function App() {
+    return (
+        <Router>
+            <Route path="/" exact component={Home} />
+            <PrivateRoute path="/admin" component={AdminPanel} />
+            <Route path="/acceso-denegado" component={AccessDenied} />
+        </Router>
+    );
+}
+
+
+function isAdmin(req, res, next) {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(403).json('Acceso denegado: No hay token');
+    }
+
+    try {
+        const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET_KEY);
+        if (decoded.rol !== 'admin') {
+            return res.status(403).json('Acceso denegado: No eres administrador');
+        }
+        next(); // Continúa si es admin
+    } catch (error) {
+        return res.status(403).json('Token inválido');
+    }
+}
+
+app.get('/admin', isAdmin, (req, res) => {
+    res.json('Bienvenido al panel de administración');
+});

@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "child_process": "^1.0.2",
+    "cloudinary": "^2.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "download": "^8.0.0",
+    "express": "^4.21.0",
+    "fs": "^0.0.1-security",
+    "jwt-decode": "^4.0.0",
+    "morgan": "^1.10.0",
+    "mssql": "^10.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15",
+    "path": "^0.12.7",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.13.0",
+    "streamifier": "^0.1.1"
+  },
+  "name": "proyecto_reque",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "description": ""
+}
