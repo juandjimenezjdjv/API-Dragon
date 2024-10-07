@@ -6,7 +6,8 @@ import {createServicio, deleteServicio, get3RandomService, get3RandomTestimonies
     updateServicio,
     registrarPagoSinpe,
     generarInforme,
-    getServicesByType} from '../controllers/products.controllers.js';
+    getServicesByType,
+    getServicesAdmin} from '../controllers/products.controllers.js';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import pool from '../database/connection.js';
@@ -33,6 +34,7 @@ router.get('/getTestimonies', getTestimonies)
 router.post('/createService', createServicio)
 router.post('/updateService/:codigoServicio', updateServicio)
 router.post('/createTestimonie', insertTestimonio)
+router.get("/getServicesAdmin", getServicesAdmin)
 // Agrega la ruta para obtener los pagos
 router.get('/getPagosPorCliente/:correo', getPagosPorCliente);
 

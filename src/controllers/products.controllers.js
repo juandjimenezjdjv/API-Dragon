@@ -135,7 +135,18 @@ export const getServices = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los servicios' });
     }
 };
+export const getServicesAdmin = async (req, res) => {
+    try {
+        // Ejecutar la consulta para obtener todos los servicios
+        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 OR estado IS NULL');
 
+        // Enviar los servicios como respuesta
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error al obtener los servicios:', err.message);
+        res.status(500).json({ message: 'Error al obtener los servicios' });
+    }
+};
 
 export const getServicesByType = async (req, res) => {
     try {
