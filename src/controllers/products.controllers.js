@@ -543,6 +543,7 @@ export const generarInforme = async (req, res) => {
             doc.fontSize(12).text(`Nombre de actividad: ${pago['Nombre de actividad']}`);
             doc.text(`Código de actividad: ${pago['Código de actividad']}`);
             doc.text(`Fecha: ${pago['Fecha']}`);
+            doc.text(`Hora: ${pago['Hora']}`);
             doc.text(`Día de compra: ${pago['Día de compra']}`);
             doc.text(`Precio en colones: ${pago['Precio']}`);
             doc.moveDown();
