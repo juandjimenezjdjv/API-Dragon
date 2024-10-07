@@ -142,7 +142,7 @@ export const getServicesByType = async (req, res) => {
         const { tipo } = req.params;
 
         // Ejecutar la consulta SQL con un parámetro
-        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1 AND estado != 1 OR estado IS NULL', [tipo]);
+        const result = await pool.query('SELECT * FROM servicio WHERE tipo = $1 AND (estado != 1 OR estado IS NULL);', [tipo]);
 
         // Enviar los servicios filtrados como respuesta
         res.json(result.rows);
@@ -283,7 +283,7 @@ export const getServicioById = async (req, res) => {
         const { codigoServicio } = req.params;
 
         // Ejecutar la consulta SQL para obtener el servicio por código
-        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1 OR estado IS NULL', [codigoServicio, 'activo']);
+        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1 OR estado IS NULL', [codigoServicio]);
 
 
         const servicio = result.rows[0];
