@@ -511,7 +511,7 @@ export const generarInforme = async (req, res) => {
                 S.nombre AS "Nombre de actividad",
                 P.codigoServicio AS "Código de actividad",
                 CONCAT(TO_CHAR(S.horaFechaSalida, 'DD/MM/YYYY'), ' al ', TO_CHAR(S.horaFechaLlegada, 'DD/MM/YYYY')) AS "Fecha",
-                CONCAT(TO_CHAR(S.horaFechaSalida AT TIME ZONE 'UTC' AT TIME ZONE 'America/Santiago', 'HH24:MI'), ' - ', TO_CHAR(S.horaFechaLlegada AT TIME ZONE 'UTC' AT TIME ZONE 'America/Santiago', 'HH24:MI')) AS "Hora",
+                CONCAT(TO_CHAR(S.horaFechaSalida, 'HH24:MI'), ' - ', TO_CHAR(S.horaFechaLlegada, 'HH24:MI')) AS "Hora",
                 TO_CHAR(P.fechaPago, 'DD-MM-YYYY') AS "Día de compra",
                 P.monto AS "Precio"
             FROM 
