@@ -105,7 +105,7 @@ export const get3RandomService = async (req, res) => {
     try {
 
         // Obtener 3 servicios aleatorios
-        const result = await pool.query('SELECT * FROM servicio WHERE estado != 1 OR estado IS NULL ORDER BY RANDOM() LIMIT 3');
+        const result = await pool.query('SELECT * FROM servicio WHERE tipo != 5 AND (estado != 1 OR estado IS NULL) ORDER BY RANDOM() LIMIT 3');
 
         // Verificar si hay resultados
         if (result.rows.length === 0) {
