@@ -294,7 +294,7 @@ export const getServicioById = async (req, res) => {
         const { codigoServicio } = req.params;
 
         // Ejecutar la consulta SQL para obtener el servicio por código
-        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND estado != 1 OR estado IS NULL', [codigoServicio]);
+        const result = await pool.query('SELECT * FROM servicio WHERE codigoServicio = $1 AND (estado != 1 OR estado IS NULL)', [codigoServicio]);
 
 
         const servicio = result.rows[0];
