@@ -156,7 +156,7 @@ router.get('/searchTours', async (req, res) => {
     }
 });
 
-app.put('/approveTestimony/:idTestimonio', async (req, res) => {
+router.put('/approveTestimony/:idTestimonio', async (req, res) => {
   const { idTestimonio } = req.params;
 
   try {
@@ -175,7 +175,7 @@ app.put('/approveTestimony/:idTestimonio', async (req, res) => {
     }
 });
 
-app.delete('/deleteTestimony/:idTestimonio', async (req, res) => {
+router.delete('/deleteTestimony/:idTestimonio', async (req, res) => {
   const { idTestimonio } = req.params;
 
   try {
