@@ -47,7 +47,7 @@ router.post('/registrarPago', registrarPago)
 // Ruta para generar el informe en PDF
 router.get('/generarInformePagos/:correo', generarInforme);
 
-router.get("getTestimoniesAdmin", getTestimoniesAdmin)
+router.get("/getTestimoniesAdmin", getTestimoniesAdmin)
 // Configura nodemailer para Gmail
 const transporter = nodemailer.createTransport({
     service: 'gmail',
