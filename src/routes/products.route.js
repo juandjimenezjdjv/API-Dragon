@@ -7,7 +7,8 @@ import {createServicio, deleteServicio, get3RandomService, get3RandomTestimonies
     registrarPagoSinpe,
     generarInforme,
     getServicesByType,
-    getServicesAdmin} from '../controllers/products.controllers.js';
+    getServicesAdmin,
+    getTestimoniesAdmin} from '../controllers/products.controllers.js';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import pool from '../database/connection.js';
