@@ -46,7 +46,7 @@ router.post('/registrarPago', registrarPago)
 // Ruta para generar el informe en PDF
 router.get('/generarInformePagos/:correo', generarInforme);
 
-
+router.get("getTestimoniesAdmin", getTestimoniesAdmin)
 // Configura nodemailer para Gmail
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -153,4 +153,42 @@ router.get('/searchTours', async (req, res) => {
         console.error('Error en la búsqueda de tours:', error);
         res.status(500).send('Error en la búsqueda');
     }
+});
+
+app.put('/approveTestimony/:idTestimonio', async (req, res) => {
+  const { idTestimonio } = req.params;
+
+  try {
+      const query = 'UPDATE testimonio SET estado = 1 WHERE idTestimonio = $1 RETURNING *';
+      const values = [idTestimonio];
+      const result = await pool.query(query, values);
+
+      if (result.rowCount > 0) {
+          res.status(200).json({ message: 'Testimonio aprobado con éxito', testimonio: result.rows[0] });
+      } else {
+          res.status(404).json({ message: 'Testimonio no encontrado' });
+      }
+  } catch (error) {
+      console.error('Error al aprobar el testimonio:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
+});
+
+app.delete('/deleteTestimony/:idTestimonio', async (req, res) => {
+  const { idTestimonio } = req.params;
+
+  try {
+      const query = 'DELETE FROM testimonio WHERE idTestimonio = $1 RETURNING *';
+      const values = [idTestimonio];
+      const result = await pool.query(query, values);
+
+      if (result.rowCount > 0) {
+          res.status(200).json({ message: 'Testimonio eliminado con éxito', testimonio: result.rows[0] });
+      } else {
+          res.status(404).json({ message: 'Testimonio no encontrado' });
+      }
+  } catch (error) {
+      console.error('Error al eliminar el testimonio:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
 });

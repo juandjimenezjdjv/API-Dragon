@@ -217,9 +217,11 @@ export const insertTestimonio = async (req, res) => {
 
         // Ejecutar la consulta SQL para insertar el testimonio
         const result = await pool.query(
-            'INSERT INTO testimonio (nombreUsuario, comentario) VALUES ($1, $2) RETURNING *',
-            [nombreUsuario, comentario]
+            'INSERT INTO testimonio (nombreUsuario, comentario, estado) VALUES ($1, $2, $3) RETURNING *',
+            [nombreUsuario, comentario, 0] // Estado es 0 por defecto
         );
+
+
 
         // Devolver el testimonio insertado y un mensaje de éxito
         res.json({ message: 'Testimonio insertado exitosamente', testimonio: result.rows[0] });
@@ -232,6 +234,20 @@ export const insertTestimonio = async (req, res) => {
 export const getTestimonies  = async (req, res) => {
     try {
         // Ejecutar la consulta SQL para obtener todos los testimonios
+        const result = await pool.query('SELECT * FROM testimonio WHERE estado = 1');
+
+
+        // Enviar los testimonios como respuesta
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error al obtener los testimonios:', err.message);
+        res.status(500).json({ message: 'Error al obtener los testimonios' });
+    }
+}
+
+export const getTestimoniesAdmin  = async (req, res) => {
+    try {
+        // Ejecutar la consulta SQL para obtener todos los testimonios
         const result = await pool.query('SELECT * FROM testimonio');
 
         // Enviar los testimonios como respuesta
@@ -241,6 +257,7 @@ export const getTestimonies  = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los testimonios' });
     }
 }
+
 
 // TODO el boton de la imagen debe estar conectado con la API de cloudinary para la gestion de imagenes
 export const createServicio = async (req, res) => {
